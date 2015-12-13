@@ -1,0 +1,49 @@
+server {
+  listen 80 <%= @listen_options -%>;
+
+  set $upstream php-<%= @configuration['default_php_version'] %>;
+  server_name .<%= @server_name %>;
+
+  <% node['phpbuild']['versions'].each do |php_family, php_configuration| %>
+  if ($host = php-<%= php_family %>.<%= @server_name %>) {
+    set $upstream php-<%= php_family %>;
+  }
+  <% end %>
+
+  root <%= @configuration['document_root'] %>;
+  index index.php index.html index.nginx-debian.html;
+  client_max_body_size 64M;
+
+  <% if @configuration['install_redirect'] %>
+  location /typo3/install {
+    return 307 $scheme://$host<%= @configuration['install_redirect'] %>;
+  }
+  <% end %>
+
+  # Prevent clients from accessing hidden files (starting with a dot)
+  # This is particularly important if you store .htpasswd files in the site hierarchy
+  # Access to `/.well-known/` is allowed.
+  location ~* /\.(?!well-known\/) {
+      deny all;
+  }
+
+  # Prevent clients from accessing to backup/config/source files
+  location ~* (?:\.(?:bak|conf|dist|fla|in[ci]|log|psd|sh|sql|sw[op])|~)$ {
+      deny all;
+  }
+
+  # Built-in filename-based cache busting
+  location ~* (.+)\.(?:\d+)\.(js|css|png|jpg|jpeg|gif)$ {
+    try_files $uri $1.$2;
+  }
+
+  location / {
+    try_files $uri $uri/ /index.php?$args;
+  }
+
+  location ~ \.php$ {
+    include snippets/fastcgi-php.conf;
+    fastcgi_pass  $upstream;
+    fastcgi_param TYPO3_CONTEXT Development;
+  }
+}
