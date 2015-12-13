@@ -29,13 +29,6 @@ git node['phpbuild']['installdir'] do
   action     :sync
 end
 
-directory "/run/php/" do
-  action :create
-  mode '0755'
-  owner node['php-fpm']['user']
-  group node['php-fpm']['group']
-end
-
 node['phpbuild']['versions'].each do |family, configuration|
   execute "phpbuild #{family}" do
     command     "bin/php-build #{configuration[:version]} #{node['phpbuild']['installdir_php']}/#{configuration[:version]}"
@@ -56,7 +49,7 @@ node['phpbuild']['versions'].each do |family, configuration|
     variables   options: {
                   'pool_conf_dir' => "#{node['phpbuild']['installdir_php']}/#{configuration[:version]}/etc/php-fpm.d",
                   'error_log'     => "/var/log/php#{family}-fpm.log",
-                  'pid_file'      => "/run/php/php#{family}-fpm.pid",
+                  'pid_file'      => "/run/php#{family}-fpm.pid",
 
                 }
     mode        '0644'
@@ -107,7 +100,7 @@ node['phpbuild']['versions'].each do |family, configuration|
       exec_start  "/opt/php/#{configuration[:version]}/sbin/php-fpm --nodaemonize --fpm-config /opt/php/#{configuration[:version]}/etc/php-fpm.conf"
       exec_reload '/bin/kill -USR2 $MAINPID'
       type        'simple'
-      pid_file    "/run/php/php#{family}-fpm.pid"
+      pid_file    "/run/php#{family}-fpm.pid"
     end
     action [:create, :enable, :start]
   end
