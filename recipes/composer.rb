@@ -23,3 +23,10 @@ remote_file '/usr/local/bin/composer' do
   group 'root'
   mode '0755'
 end
+
+directory '/var/www/.composer'  do
+  owner 'www-data'
+  group 'www-data'
+  mode '0775'
+  recursive true
+end
