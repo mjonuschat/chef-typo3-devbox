@@ -17,27 +17,25 @@
 # limitations under the License.
 #
 
-remote_file "#{Chef::Config['file_cache_path']}/phpMyAdmin-#{node['phpmyadmin']['version']}-all-languages.tar.gz" do
-  owner node['phpmyadmin']['user']
-  group node['phpmyadmin']['group']
-  mode '0644'
-  retries 5
-  retry_delay 2
-  action :create
-  source "#{node['phpmyadmin']['mirror']}/#{node['phpmyadmin']['version']}/phpMyAdmin-#{node['phpmyadmin']['version']}-all-languages.tar.gz"
-  checksum node['phpmyadmin']['checksum']
-  notifies :run, 'bash[install phpmyadmin]'
+directory node['phpmyadmin']['home'] do
+  action :delete
+  recursive true
+  not_if { ::File.exists?("#{node['phpmyadmin']['home']}/RELEASE-DATE-#{node['phpmyadmin']['version']}")}
 end
 
-bash 'install phpmyadmin' do
-  code <<-EOH
-  shopt -u dotglob
-  cd #{node['phpmyadmin']['home']}
-  rm -rf *
-  tar --strip-components 1 -xzf #{Chef::Config['file_cache_path']}/phpMyAdmin-#{node['phpmyadmin']['version']}-all-languages.tar.gz
-  chown -R #{node['phpmyadmin']['user']}:#{node['phpmyadmin']['group']} #{node['phpmyadmin']['home']}
-  EOH
-  action :nothing
+directory node['phpmyadmin']['home'] do
+  action :create
+  owner node['phpmyadmin']['user']
+  group node['phpmyadmin']['user']
+  mode '0755'
+  not_if { ::File.exists?("#{node['phpmyadmin']['home']}/RELEASE-DATE-#{node['phpmyadmin']['version']}")}
+end
+
+tar_extract "#{node['phpmyadmin']['mirror']}/#{node['phpmyadmin']['version']}/phpMyAdmin-#{node['phpmyadmin']['version']}-all-languages.tar.gz" do
+  target_dir node['phpmyadmin']['home']
+  creates "#{node['phpmyadmin']['home']}/RELEASE-DATE-#{node['phpmyadmin']['version']}"
+  tar_flags [ '--strip-components 1' ]
+  checksum node['phpmyadmin']['checksum']
 end
 
 directory "#{node['phpmyadmin']['home']}/conf.d" do
