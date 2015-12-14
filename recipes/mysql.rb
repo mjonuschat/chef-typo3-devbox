@@ -59,6 +59,8 @@ end
 
 mysql_database 'typo3_master' do
   connection mysql_connection_info
+  encoding 'utf8'
+  collation 'utf8_general_ci'
   action :create
 end
 
