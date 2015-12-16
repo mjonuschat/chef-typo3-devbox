@@ -44,6 +44,7 @@ server {
   location ~ \.php$ {
     include snippets/fastcgi-php.conf;
     fastcgi_pass  $upstream;
+    fastcgi_read_timeout 300;
     fastcgi_param TYPO3_CONTEXT Development;
   }
 }
