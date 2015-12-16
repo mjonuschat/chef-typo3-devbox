@@ -15,11 +15,13 @@ default['php-fpm']['pools'] = {
       'php_value[upload_max_filesize]' => '32M',
       'php_value[date.timezone]' => 'Europe/Berlin',
       'php_value[xdebug.max_nesting_level]' => 400,
+      'php_value[xdebug.remote_enable]' => '1',
+      'php_value[xdebug.remote_connect_back]' => '1',
       'php_value[max_input_vars]' => 2000,
       'php_value[apc.shm_size]' => '128M',
       'php_value[apc.entries_hint]' => '16384',
       'php_value[apc.rfc1867]' => '1',
-      'php_value[always_populate_raw_post_data]' => '-1',
+      'php_value[always_populate_raw_post_data]' => '-1'
     }
   }
 }
