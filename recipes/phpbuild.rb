@@ -56,6 +56,21 @@ node['phpbuild']['versions'].each do |family, configuration|
     notifies    :restart, "systemd_service[php#{family}-fpm]"
   end
 
+  link "/opt/php/#{family}" do
+    to "/opt/php/#{configuration[:version]}"
+    link_type :symbolic
+  end
+
+  if configuration[:default]
+    template    '/etc/profile.d/php.sh' do
+      source    'php/path.sh'
+      variables default_php_path: "/opt/php/#{configuration[:version]}/bin"
+      owner     'root'
+      group     'root'
+      mode      '0644'
+    end
+  end
+
   node['php-fpm']['pools'].each do |pool_name, params|
     template "/opt/php/#{configuration[:version]}/etc/php-fpm.d/#{pool_name}.conf" do
       source 'php/php-pool.conf.erb'

@@ -50,6 +50,7 @@ default['phpbuild']['versions'] = {
     version: '5.6.15',
     options: '--with-freetype-dir=/usr --with-bz2 --with-imap=/usr --with-imap-ssl --enable-intl --with-pspell --with-libdir=lib',
     extensions: 'apcu=4.0.10 igbinary=1.2.1',
+    default: true,
   },
   '7.0' => {
     version: '7.0.0',
