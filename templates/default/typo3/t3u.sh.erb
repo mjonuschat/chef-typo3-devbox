@@ -1,0 +1,87 @@
+#!/bin/bash
+
+RED='\033[1;31m'
+GREEN='\033[1;32m'
+DEFAULT='\033[0m'
+BASEDIR=/var/www/html/
+OPTIND=1
+USER=www-data
+PHP_VERSION=<%= @php_version %>
+SITE=<%= @site %>
+
+# Usage
+show_help() {
+cat <<EOH
+${GREEN}Usage: ${0##*/} [-h] [-p PHP_VERSION] [-u USER] [-s SITE] [FILE]...{$DEFAULT}
+Run TYPO3 CMS Unit tests and write the result to standard output. Without FILE
+all tests will be run, you can specify a single test file or a directory to limit
+the scope of the run.
+
+  -h              Show this help
+  -p PHP_VERSION  Run tests using this version of PHP (Default: 5.6)
+  -s SITE         Run tests for this site (Default: master.local.typo3.org)
+  -u USER         Run tests as this user using sudo (Default: www-data)
+EOH
+}
+
+validate_site() {
+  if [ ! -d "${BASEDIR}/${SITE}/typo3/sysext" ]; then
+    echo -e "${RED}Invalid site: ${SITE}!${DEFAULT}"
+    exit 1
+  fi
+}
+
+validate_phpunit() {
+  if [ ! -x "${BASEDIR}/${SITE}/TYPO3.CMS/bin/phpunit" ]; then
+    echo -e "${RED}PHPUnit not found: ${SITE}/bin/phpunit!${DEFAULT}"
+    exit 1
+  fi
+}
+
+validate_php() {
+  if [ ! -x "<%= node['phpbuild']['installdir_php'] %>/${PHP_VERSION}/bin/php" ]; then
+    echo -e "${RED}Specified PHP version not found: ${PHP_VERSION}!${DEFAULT}"
+    exit 1
+  fi
+}
+
+validate_user() {
+  if [ -z $(getent passwd "${USER}") ]; then
+    echo -e "${RED}Specified user not found: ${USER}!${DEFAULT}"
+    exit 1
+  fi
+}
+
+while getopts "hp:u:" opt; do
+  case "$opt" in
+    h)
+      show_help
+      exit 0
+      ;;
+    p)
+      PHP_VERSION=$OPTARG
+      ;;
+    u)
+      USER=$OPTARG
+      ;;
+    s)
+      SITE=$OPTARG
+      ;;
+  esac
+done
+
+shift "$((OPTIND-1))" # Remove options and possible --
+
+validate_php
+validate_site
+validate_phpunit
+validate_user
+
+echo -e "${GREEN}Running tests for: ${SITE}${DEFAULT}"
+echo -e "${GREEN}Running tests as: ${USER}${DEFAULT}"
+echo -e "${GREEN}Running tests using PHP ${PHP_VERSION}${DEFAULT}"
+
+pushd ${BASEDIR}/${SITE}/TYPO3.CMS/ >/dev/null
+sudo -HEnu "${USER}" -s -- /usr/bin/env PATH="<%= node['phpbuild']['installdir_php'] %>/${PHP_VERSION}/bin:$PATH" bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/UnitTests.xml $@
+popd >/dev/null
+echo $@

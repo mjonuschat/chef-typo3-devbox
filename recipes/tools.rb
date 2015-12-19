@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: typo3
-# Recipe:: default
+# Recipe:: tools
 #
 # Copyright (C) 2015 Morton Jonuschat <m.jonuschat@mojocode.de>
 #
@@ -17,18 +17,28 @@
 # limitations under the License.
 #
 
-include_recipe 'apt::default'
-include_recipe 'apt::unattended-upgrades'
-include_recipe 'build-essential::default'
-include_recipe 'timezone-ii::default'
-include_recipe 'hostnames::default'
+package 'parallel' do
+  action :upgrade
+end
 
-include_recipe 'typo3::system'
-include_recipe 'typo3::mysql'
-include_recipe 'typo3::phpmyadmin'
-include_recipe 'typo3::nodejs'
-include_recipe 'typo3::memcached'
-include_recipe 'typo3::phpbuild'
-include_recipe 'typo3::composer'
-include_recipe 'typo3::nginx'
-include_recipe 'typo3::tools'
+node['nginx']['sites'].each do |server_name, configuration|
+  next unless configuration['default']
+
+  template "/usr/local/bin/t3u" do
+    source "typo3/t3u.sh.erb"
+    owner "root"
+    group "root"
+    mode "0755"
+    variables 'php_version' => configuration['default_php_version'],
+              'site' => server_name
+  end
+
+  template "/usr/local/bin/t3f" do
+    source "typo3/t3f.sh.erb"
+    owner "root"
+    group "root"
+    mode "0755"
+    variables 'php_version' => configuration['default_php_version'],
+              'site' => server_name
+  end
+end
