@@ -1,5 +1,5 @@
 default['phpbuild']['repository'] = 'git://github.com/php-build/php-build.git'
-default['phpbuild']['revision'] = 'cba25e2406e45aad095605879bf8f229667e91b6'
+default['phpbuild']['revision'] = 'master'
 default['phpbuild']['installdir'] = '/usr/local/phpbuild'
 default['phpbuild']['installdir_php'] = '/opt/php'
 default['phpbuild']['packages'] = [
@@ -47,13 +47,13 @@ default['phpbuild']['versions'] = {
     extensions: 'apcu=4.0.10 igbinary=1.2.1',
   },
   '5.6' => {
-    version: '5.6.15',
+    version: '5.6.16',
     options: '--with-freetype-dir=/usr --with-bz2 --with-imap=/usr --with-imap-ssl --enable-intl --with-pspell --with-libdir=lib',
     extensions: 'apcu=4.0.10 igbinary=1.2.1',
     default: true,
   },
   '7.0' => {
-    version: '7.0.0',
+    version: '7.0.1',
     options: '--with-freetype-dir=/usr --with-bz2 --with-imap=/usr --with-imap-ssl --enable-intl --with-pspell --with-libdir=lib',
     extensions: 'apcu=5.1.2'
   }
