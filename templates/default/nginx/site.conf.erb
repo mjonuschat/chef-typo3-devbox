@@ -5,7 +5,7 @@ server {
   server_name .<%= @server_name %>;
 
   <% node['phpbuild']['versions'].each do |php_family, php_configuration| %>
-  if ($host = php-<%= php_family %>.<%= @server_name %>) {
+  if ($host = php-<%= php_family.gsub('.', '') %>.<%= @server_name %>) {
     set $upstream php-<%= php_family %>;
   }
   <% end %>
