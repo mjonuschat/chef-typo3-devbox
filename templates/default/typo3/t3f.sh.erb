@@ -82,7 +82,7 @@ validate_site
 validate_phpunit
 validate_user
 
-rm -rf ${BASEDIR}/${SITE}/TYPO3.CMS/typo3temp/functional-* >/dev/null
+rm -rf ${BASEDIR}/${SITE}/TYPO3.CMS/typo3temp/functional-* ${BASEDIR}/${SITE}/TYPO3.CMS/typo3temp/var/tests/functional-* >/dev/null
 
 echo -e "${GREEN}Running tests for: ${SITE}${DEFAULT}"
 echo -e "${GREEN}Running tests as: ${USER}${DEFAULT}"
