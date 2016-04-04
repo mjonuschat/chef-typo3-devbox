@@ -42,18 +42,18 @@ default['phpbuild']['versions'] = {
 #    extensions: 'apcu=4.0.10 igbinary=1.2.1',
 #  },
   '5.5' => {
-    version: '5.5.33',
+    version: '5.5.34',
     options: '--with-freetype-dir=/usr --with-bz2 --with-imap=/usr --with-imap-ssl --enable-intl --with-pspell --with-libdir=lib',
     extensions: 'apcu=4.0.10',
   },
   '5.6' => {
-    version: '5.6.19',
+    version: '5.6.20',
     options: '--with-freetype-dir=/usr --with-bz2 --with-imap=/usr --with-imap-ssl --enable-intl --with-pspell --with-libdir=lib',
     extensions: 'apcu=4.0.10',
     default: true,
   },
   '7.0' => {
-    version: '7.0.4',
+    version: '7.0.5',
     options: '--with-freetype-dir=/usr --with-bz2 --with-imap=/usr --with-imap-ssl --enable-intl --with-pspell --with-libdir=lib',
     extensions: 'apcu=5.1.3'
   }
