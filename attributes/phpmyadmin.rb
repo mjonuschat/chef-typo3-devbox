@@ -1,5 +1,5 @@
-default['phpmyadmin']['version'] = '4.5.2'
-default['phpmyadmin']['checksum'] = 'ff43edcb239548980fe3d4586086321f82e3f4cbf50aedf146b0cf2846553d11'
+default['phpmyadmin']['version'] = '4.6.0'
+default['phpmyadmin']['checksum'] = '53e79a93b095714a641fdf7670c98a9cc74995a7652b386c7d87d914c32cff7f'
 default['phpmyadmin']['mirror'] = 'https://files.phpmyadmin.net/phpMyAdmin/'
 default['phpmyadmin']['server_name'] = 'local.typo3.org'
 default['phpmyadmin']['blowfish_secret'] = 'v]e1^U]f\BR\.t0{e_vlz]mqq{GyZ3~UD;K}+mm}a\fi>b2fVC:,\uK~wf>|VMh3'
