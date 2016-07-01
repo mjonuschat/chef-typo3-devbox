@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: typo3
-# Recipe:: phpbuild
+# Recipe:: nodejs
 #
 # Copyright (C) 2015 Morton Jonuschat <m.jonuschat@mojocode.de>
 #
