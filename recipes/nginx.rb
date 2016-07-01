@@ -34,27 +34,26 @@ file '/etc/nginx/sites-enabled/default' do
 end
 
 # PHP-FPM Upstreams
-node['phpbuild']['versions'].each do |family, configuration|
-  template "/etc/nginx/conf.d/upstream-php-#{family}.conf" do
-    source "nginx/upstream.conf.erb"
-    owner "root"
-    group "root"
-    mode "0644"
-    variables 'configuration' => configuration,
-              'upstream_name' => "php-#{family}"
+node['php']['versions'].each do |version|
+  template "/etc/nginx/conf.d/upstream-php-#{version}.conf" do
+    source 'nginx/upstream.conf.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
+    variables 'upstream_name' => "php-#{version}"
     notifies :restart, 'service[nginx]'
   end
 end
 
 # Default Server
-template "/etc/nginx/sites-enabled/local.typo3.org.conf" do
-  source "nginx/site.conf.erb"
-  owner "root"
-  group "root"
-  mode "0644"
+template '/etc/nginx/sites-enabled/local.typo3.org.conf' do
+  source 'nginx/site.conf.erb'
+  owner 'root'
+  group 'root'
+  mode '0644'
   variables 'configuration' => {
-              'default_php_version' => '5.6',
-              'document_root' => node['phpmyadmin']['home'],
+                'default_php_version' => '5.6',
+                'document_root' => node['phpmyadmin']['home'],
             },
             'server_name' => 'local.typo3.org',
             'listen_options' => 'default_server'

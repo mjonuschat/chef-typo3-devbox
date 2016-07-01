@@ -39,7 +39,7 @@ validate_phpunit() {
 }
 
 validate_php() {
-  if [ ! -x "<%= node['phpbuild']['installdir_php'] %>/${PHP_VERSION}/bin/php" ]; then
+  if [ ! -x "/usr/bin/php${PHP_VERSION}" ]; then
     echo -e "${RED}Specified PHP version not found: ${PHP_VERSION}!${DEFAULT}"
     exit 1
   fi
@@ -82,6 +82,6 @@ echo -e "${GREEN}Running tests as: ${USER}${DEFAULT}"
 echo -e "${GREEN}Running tests using PHP ${PHP_VERSION}${DEFAULT}"
 
 pushd ${BASEDIR}/${SITE}/TYPO3.CMS/ >/dev/null
-sudo -HEnu "${USER}" -s -- /usr/bin/env PATH="<%= node['phpbuild']['installdir_php'] %>/${PHP_VERSION}/bin:$PATH" bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/UnitTests.xml $@
+sudo -HEnu "${USER}" -s -- /usr/bin/env php${PHP_VERSION} bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/UnitTests.xml $@
 popd >/dev/null
 echo $@

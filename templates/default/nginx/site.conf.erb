@@ -4,9 +4,9 @@ server {
   set $upstream php-<%= @configuration['default_php_version'] %>;
   server_name .<%= @server_name %>;
 
-  <% node['phpbuild']['versions'].each do |php_family, php_configuration| %>
-  if ($host = php-<%= php_family.gsub('.', '') %>.<%= @server_name %>) {
-    set $upstream php-<%= php_family %>;
+  <% node['php']['versions'].each do |version| %>
+  if ($host = php-<%= version.gsub('.', '') %>.<%= @server_name %>) {
+    set $upstream php-<%= version %>;
   }
   <% end %>
 

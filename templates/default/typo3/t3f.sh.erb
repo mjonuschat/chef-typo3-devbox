@@ -41,7 +41,7 @@ validate_phpunit() {
 }
 
 validate_php() {
-  if [ ! -x "<%= node['phpbuild']['installdir_php'] %>/${PHP_VERSION}/bin/php" ]; then
+  if [ ! -x "/usr/bin/php${PHP_VERSION}" ]; then
     echo -e "${RED}Specified PHP version not found: ${PHP_VERSION}!${DEFAULT}"
     exit 1
   fi
@@ -97,9 +97,7 @@ if [[ -n $* ]]; then
     typo3DatabasePassword=<%= node['mysql']['initial_root_password'] %> \
     typo3DatabaseHost=127.0.0.1 \
     typo3DatabasePort=3306 \
-    PATH=<%= node['phpbuild']['installdir_php'] %>/${PHP_VERSION}/bin:$PATH \
-    PHP_INI_SCAN_DIR='' \
-    bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/FunctionalTests.xml $@
+    php${PHP_VERSION} bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/FunctionalTests.xml $@
 else
   TESTCASES=$(mktemp -u)
   trap "rm -f -- '${TESTCASES}'" EXIT
@@ -111,9 +109,7 @@ else
       typo3DatabasePassword=<%= node['mysql']['initial_root_password'] %> \
       typo3DatabaseHost=127.0.0.1 \
       typo3DatabasePort=3306 \
-      PATH=<%= node['phpbuild']['installdir_php'] %>/${PHP_VERSION}/bin:$PATH \
-      PHP_INI_SCAN_DIR='' \
-      bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/FunctionalTests.xml {}" :::: "${TESTCASES}"
+      php${PHP_VERSION} bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/FunctionalTests.xml {}" :::: "${TESTCASES}"
 fi
 
 popd >/dev/null
