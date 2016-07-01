@@ -1,12 +1,15 @@
 # System packages
-node['system']['extra_packages'].each do |pkg|
-  package pkg do
-    action :upgrade
-  end
+package node['system']['extra_packages'] do
+  action :upgrade
 end
 
-locales node['system']['available_locales']
+locales node['locales']['available_locales']
 
 node['system']['ssh_known_hosts'].each do |known_host|
   ssh_known_hosts_entry known_host
+end
+
+directory '/vagrant' do
+  action :create
+  mode '0777'
 end

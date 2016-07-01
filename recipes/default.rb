@@ -23,6 +23,7 @@ include_recipe 'build-essential::default'
 include_recipe 'timezone-ii::default'
 include_recipe 'hostnames::default'
 
+include_recipe 'locales'
 include_recipe 'typo3::system'
 include_recipe 'typo3::mysql'
 include_recipe 'typo3::phpmyadmin'
