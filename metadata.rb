@@ -6,6 +6,7 @@ description      'Installs/Configures typo3'
 long_description 'Installs/Configures typo3'
 version          '0.1.0'
 
+depends 'apparmor'
 depends 'apt'
 depends 'build-essential'
 depends 'timezone-ii'

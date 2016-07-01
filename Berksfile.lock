@@ -4,6 +4,8 @@ DEPENDENCIES
     metadata: true
 
 GRAPH
+  apparmor (2.0.1)
+    compat_resource (>= 0.0.0)
   apt (4.0.1)
     compat_resource (>= 12.10)
   build-essential (6.0.0)
@@ -51,6 +53,7 @@ GRAPH
   tar (0.7.0)
   timezone-ii (0.2.0)
   typo3 (0.1.0)
+    apparmor (>= 0.0.0)
     apt (>= 0.0.0)
     build-essential (>= 0.0.0)
     database (>= 0.0.0)

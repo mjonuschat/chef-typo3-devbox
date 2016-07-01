@@ -96,7 +96,7 @@ if [[ -n $* ]]; then
     typo3DatabaseUsername=root \
     typo3DatabasePassword=<%= node['mysql']['initial_root_password'] %> \
     typo3DatabaseHost=127.0.0.1 \
-    typo3DatabasePort=3306 \
+    typo3DatabasePort=3307 \
     php${PHP_VERSION} bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/FunctionalTests.xml $@
 else
   TESTCASES=$(mktemp -u)
@@ -108,7 +108,7 @@ else
       typo3DatabaseUsername=root \
       typo3DatabasePassword=<%= node['mysql']['initial_root_password'] %> \
       typo3DatabaseHost=127.0.0.1 \
-      typo3DatabasePort=3306 \
+      typo3DatabasePort=3307 \
       php${PHP_VERSION} bin/phpunit -d memory_limit=-1 -c typo3/sysext/core/Build/FunctionalTests.xml {}" :::: "${TESTCASES}"
 fi
 
