@@ -17,13 +17,6 @@
 # limitations under the License.
 #
 
-apt_repository 'dotdeb.org' do
-  uri "http://packages.dotdeb.org"
-  distribution node['lsb']['codename']
-  components ["all"]
-  key 'https://www.dotdeb.org/dotdeb.gpg'
-end
-
 package 'nginx-full' do
   action :upgrade
 end
