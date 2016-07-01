@@ -16,13 +16,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
-apt_repository 'repo.mysql.com' do
-  uri "http://repo.mysql.com/apt/#{node['platform']}"
-  distribution node['lsb']['codename']
-  components ["mysql-#{node['mysql']['version']}"]
-  key 'repo.mysql.com.gpg'
-end
-
 mysql2_chef_gem 'default' do
   action :install
 end
@@ -77,16 +70,16 @@ mysql_database_user 'typo3' do
   action :grant
 end
 
-template "/root/.my.cnf" do
-  owner "root"
-  group "root"
-  mode "0600"
-  source "my.cnf.erb"
+template '/root/.my.cnf' do
+  owner 'root'
+  group 'root'
+  mode '0600'
+  source 'mysql/my.cnf.erb'
 end
 
-template "/home/vagrant/.my.cnf" do
-  owner "vagrant"
-  group "vagrant"
-  mode "0600"
-  source "my.cnf.erb"
+template '/home/vagrant/.my.cnf' do
+  owner 'vagrant'
+  group 'vagrant'
+  mode '0600'
+  source 'mysql/my.cnf.erb'
 end
