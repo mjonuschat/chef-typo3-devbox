@@ -1,0 +1,10 @@
+[mysqld]
+init-file=/etc/mysql-typo3-testing/grants.sql
+general_log = 0
+slow_query_log = off
+
+innodb_flush_method = nosync
+innodb_flush_log_at_trx_commit = 0
+innodb_doublewrite = 0
+innodb_checksums = 0
+innodb_flush_neighbors = 0

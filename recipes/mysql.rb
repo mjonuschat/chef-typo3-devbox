@@ -47,7 +47,7 @@ mount '/var/lib/mysql-typo3-testing' do
   pass 0
   fstype 'tmpfs'
   device   'tmpfs'
-  options 'mode=0775,uid=mysql,gid=mysql,size=512M'
+  options 'mode=0775,uid=mysql,gid=mysql,size=1G'
   action [:enable]
 end
 
@@ -73,8 +73,8 @@ template '/etc/mysql-typo3-testing/grants.sql' do
   notifies :restart, 'mysql_service[typo3-testing]'
 end
 
-mysql_config 'init-file' do
-  source 'mysql/init-file.cnf.erb'
+mysql_config 'typo3-testing' do
+  source 'mysql/typo3-testing.cnf.erb'
   instance 'typo3-testing'
   notifies :restart, 'mysql_service[typo3-testing]'
   action :create
