@@ -17,7 +17,7 @@
 # limitations under the License.
 #
 
-package 'nginx-full' do
+package %w(nginx nginx-full) do
   action :upgrade
 end
 
@@ -56,10 +56,10 @@ end
 # TYPO3 Sites
 node['nginx']['sites'].each do |server_name, configuration|
   template "/etc/nginx/sites-enabled/#{server_name}.conf" do
-    source "nginx/site.conf.erb"
-    owner "root"
-    group "root"
-    mode "0644"
+    source 'nginx/site.conf.erb'
+    owner 'root'
+    group 'root'
+    mode '0644'
     variables 'configuration' => configuration,
               'server_name' => server_name
     notifies :restart, 'service[nginx]'
