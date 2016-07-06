@@ -81,6 +81,10 @@ node['php']['versions'].each do |version|
   end
 end
 
+package node['php']['pecl_extensions'] do
+  action :upgrade
+end
+
 execute 'enable xdebug in php-fpm' do
   command '/usr/sbin/phpenmod -v ALL -s fpm xdebug'
 end
