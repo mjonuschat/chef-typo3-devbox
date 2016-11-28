@@ -34,7 +34,6 @@ mysql_service 'typo3' do
   port '3306'
   charset 'utf8'
   action [:create, :start]
-  package_name "mysql-server-#{version node['mysql']['version']}"
 end
 
 mysql_service 'typo3-testing' do
@@ -43,7 +42,6 @@ mysql_service 'typo3-testing' do
   port '3307'
   charset 'utf8'
   action [:create, :start]
-  package_name "mysql-server-#{version node['mysql']['version']}"
 end
 
 apparmor_policy 'local/mysql/typo3-testing-grants' do
