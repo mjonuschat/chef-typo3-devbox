@@ -16,6 +16,14 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 #
+package 'libmysqlclient-dev' do
+  action :install
+end
+
+mysql_client 'default' do
+  action :create
+end
+
 mysql2_chef_gem 'default' do
   action :install
 end
