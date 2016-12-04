@@ -1,17 +1,17 @@
 default['nginx']['sites'] = {
   'master.local.typo3.org' => {
-    'default_php_version' => '7.0',
+    'default_php_version' => '7.1',
     'document_root' => '/var/www/html/master.local.typo3.org',
     'install_redirect' => '/typo3/sysext/install/Start/Install.php',
     'default' => true,
   },
   'seven.local.typo3.org' => {
-    'default_php_version' => '5.6',
+    'default_php_version' => '7.0',
     'document_root' => '/var/www/html/seven.local.typo3.org',
     'install_redirect' => '/typo3/sysext/install/Start/Install.php',
   },
   'six.local.typo3.org' => {
-    'default_php_version' => '5.5',
+    'default_php_version' => '5.6',
     'document_root' => '/var/www/html/six.local.typo3.org',
     'install_redirect' => '/typo3/sysext/install/Start/Install.php',
   },
